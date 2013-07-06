@@ -1,0 +1,192 @@
+import xml.etree.ElementTree as etree
+import Tkinter as tk
+from random import randrange
+from math import cos, sin, pi, log
+
+
+WIDTH = 1000
+HEIGHT = 1000
+RADIUS = 100
+TEXT_WIDTH = 30
+
+nodes = []
+
+
+class Node():
+
+    def __init__(self, pos, text):
+        self.pos = pos
+        self.text = text
+        self.radius = 100
+        self.selected = False
+        self.circle = canvas.create_oval(0, 0, 50, 50, fill = "black", outline = "white")
+
+    def move(self):
+        pass
+
+    def collide(self, other):
+        pass
+
+
+#parse xml
+tree = etree.parse(filename)
+mmap = tree.getroot()
+
+
+
+
+
+#setup GUI
+root = tk.Tk()
+
+#frame = tk.Frame(root, width=WIDTH, height=HEIGHT, bg="black")
+#frame.pack()
+canvas = tk.Canvas(root, width=WIDTH, height=HEIGHT, bg="black")
+canvas.pack()
+
+
+#text box in centre
+tb = tk.Text(root, bg="black", fg="green", relief=tk.FLAT, bd=0)
+
+
+
+#tb.insert(tk.END, "ftyukdryu")
+
+tbw = canvas.create_window(WIDTH/2, HEIGHT/2, window=tb)
+
+#circle around text box
+tbcircle = canvas.create_oval(0, 0, 50, 50, fill = "black", outline = "white")
+
+#nodes around text box
+
+#path display
+
+#import_mm_file('test.mm')
+
+def draw():
+    #resize text box according to text
+    tb["width"] = max([ len(line) for line in tb.get(0.0, tk.END).split("\n") ])
+    tb["height"] = tb.index(tk.END).split(".")[0]
+    #print tb.get(0.0, "end"), tb.get(0.0, "end").split("/n")
+
+    #draw circle around text box
+    x0, y0, x1, y1 = canvas.bbox(tbw)
+    canvas.coords(tbcircle, x0, y0, x1, y1)
+    canvas.scale(tbcircle, WIDTH/2, HEIGHT/2, 1.45, 1.45)
+
+    root.update_idletasks()
+    root.after(100, draw)
+
+
+
+
+
+
+
+
+
+#run draw() after mainloop
+root.after(100, draw)
+
+#run GUI
+root.mainloop()
+
+
+
+
+##        button = tk.Button(self.root, text = "Clear Overlaps", command = self.clear_overlaps)
+##        button.pack()
+#
+#   button2 = tk.Button(root, text = "Zoom in", command = zoom_in)
+#   button.pack()
+
+
+#    def import_mm_file(self, filename):
+#        """parses freemind xml from file and creates Node objects"""
+#
+#        #parse xml
+#        tree = etree.parse(filename)
+#        map = tree.getroot()
+#
+#        #recursively build tree
+#        def parse_tree(node):
+#            children = []
+#            for child in node:
+#                if child.tag == 'node':
+#                    #add children
+#                    grandchildren = parse_tree(child)
+#                    new_node = TkNode(self.frame, child, grandchildren)
+#                    children.append(new_node)
+#            return children
+#
+#        self.root_node = parse_tree(map)[0]
+#
+#
+#    def draw_map(self):
+#        """draws Nodes from root_node"""
+#
+#        self.root_node.move([WIDTH/2, HEIGHT/2])
+#        #recurse
+#        def draw_children(parent, depth):
+#            if depth != 0:
+#                bredth = 0
+#                for child in parent.children:
+#
+#                    #calculate coords
+#                    r = (1 / float(4 ** (DEPTH - depth))) * 500
+#                    w = bredth * (2*pi / len(parent.children))
+#                    x, y = (r * cos(w)) + parent.x, (r * sin(w)) + parent.y
+#                    bredth += 1
+##                   font_size = abs(int(20 - (depth*3)))
+#                    print depth, bredth, r, w, x, y
+#
+#                    child.move([x, y])
+#                    draw_children(child, depth - 1)
+#
+#        draw_children(self.root_node, DEPTH)
+#
+#
+#
+#
+#
+#
+#
+#
+#    #event handlers
+#    def clear_overlaps(self):
+#        """moves overlapping nodes randomly away from each other"""
+#        while 1:
+#            overlap_count = 0
+#            for node in nodelist:
+#                x1, y1, x2, y2 = canvas.bbox(node.id)
+#                overlaps = canvas.find_overlapping(x1, y1, x2, y2)
+#                print overlaps
+#                for overlap in overlaps:
+#                    if overlap != node.id:
+#                        overlap_count += 1
+#                        canvas.move(overlap, randrange(-30,40,5), randrange(-20,20,5))
+#            if overlap_count == 0:
+#                break
+#            canvas.update()
+#
+#
+#    def zoom_in(self):
+#        """TODO: makes selected node centre and moves rest up one level"""
+#        pass
+#
+#
+#
+#
+#
+#Display()
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
